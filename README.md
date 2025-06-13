@@ -1,77 +1,78 @@
-📲 SMS Spam Classification
+# 📲 SMS Spam Classification
+
 Ce projet explore différentes approches de classification de texte pour détecter les spams dans des messages SMS, à l’aide de plusieurs techniques de vectorisation et modèles d’apprentissage automatique.
 
-📁 Dataset
-SMS Spam Collection Dataset : Chaque message est étiqueté soit comme ham (non-spam), soit comme spam.
+## 📁 Dataset
 
-Source : Kaggle / Google Drive
+- **SMS Spam Collection Dataset** : Chaque message est étiqueté comme `ham` (non-spam) ou `spam`.
+- Source : Kaggle / Google Drive
+- Format : CSV (`spam.csv`)
 
-Format : CSV (spam.csv)
+## 🛠️ Méthodes Utilisées
 
-🛠️ Méthodes utilisées
-🔹 Partie 1 : Vectorisation Classique (Bag of Words & TF-IDF)
-Nettoyage des textes : minuscules, suppression de caractères spéciaux.
+### 🔹 Partie 1 : Vectorisation Classique (Bag of Words & TF-IDF)
 
-Bag of Words et TF-IDF : transformation des messages en vecteurs numériques avec max_features=5000.
+- **Nettoyage des messages** : conversion en minuscules, suppression des caractères spéciaux.
+- **Bag of Words** et **TF-IDF** :
+  - Transformation des textes avec `max_features=5000`.
+- **Modèles de classification testés** :
+  - Logistic Regression
+  - Random Forest Classifier
+  - Multi-Layer Perceptron (MLPClassifier)
+- **Évaluation** :
+  - Validation croisée à 5 folds
+  - Accuracy & F1-Score
 
-Modèles testés :
+### 🔹 Partie 2 : Embeddings avec Sentence Transformers
 
-Régression Logistique
+- Modèle utilisé : `'all-MiniLM-L6-v2'` via `sentence-transformers`
+- Chaque message est transformé en vecteur sémantique (embedding)
+- **Modèles testés** :
+  - Logistic Regression
+  - Random Forest
+  - MLP
+- **Évaluation** :
+  - Cross-validation (5 folds)
 
-Random Forest
+### 🔹 Partie 3 : Super Learner
 
-MLP Classifier
+- Combinaison de 3 modèles de base :
+  - Logistic Regression
+  - Random Forest
+  - Support Vector Classifier (SVC)
+- **Représentation utilisée** : TF-IDF
+- **Métha-modèle** : Régression Logistique
+- **Objectif** : Apprendre les poids optimaux de chaque base learner pour minimiser l’erreur globale.
 
-Évaluation : Validation croisée 5 folds, avec accuracy et F1-score.
+## 📊 Résultats Comparés (Exemple)
 
-🔹 Partie 2 : Embeddings SBERT
-Utilisation du modèle pré-entraîné 'all-MiniLM-L6-v2' via sentence-transformers.
+| Méthode            | Accuracy | F1-Score |
+|--------------------|----------|----------|
+| BoW (LogReg)       | 0.982    | 0.935    |
+| TF-IDF (LogReg)    | 0.984    | 0.940    |
+| SBERT (LogReg)     | 0.989    | 0.961    |
+| Super Learner      | 0.991    | 0.964    |
 
-Chaque message est transformé en embedding sémantique.
+> (*Les chiffres sont à ajuster selon vos résultats exacts.*)
 
-Modèles utilisés : mêmes que Partie 1
+## 📈 Visualisations
 
-Évaluation identique (cross-validation)
+- Courbes de performance en fonction de `max_features` pour BoW et TF-IDF.
+- Comparaison globale des approches dans la console.
 
-🔹 Partie 3 : Super Learner
-Combinaison des prédictions de 3 modèles de base (LogReg, Random Forest, SVC) via un méta-modèle (Régression Logistique).
+## 🧠 Avantages et Inconvénients
 
-Utilisation de TF-IDF comme représentation de texte.
+| Approche      | Avantages | Inconvénients |
+|---------------|-----------|---------------|
+| BoW/TF-IDF    | Rapide, simple | Ne capte pas le sens des mots |
+| SBERT         | Représente la sémantique | Plus coûteux en ressources |
+| Super Learner | Combine les forces de chaque modèle | Implémentation plus complexe |
 
-Apprentissage des poids des modèles de base pour améliorer les performances globales.
+## 📦 Dépendances
 
-📊 Résultats (Exemples)
-Méthode	Accuracy	F1-Score
-BoW (LogReg)	0.982	0.935
-TF-IDF (LogReg)	0.984	0.940
-SBERT (LogReg)	0.989	0.961
-Super Learner	0.991	0.964
-
-(Les valeurs ci-dessus sont des exemples, à ajuster selon tes résultats exacts.)
-
-📈 Visualisation
-Graphique des performances en fonction de max_features pour BoW et TF-IDF.
-
-Comparaison des approches dans la console.
-
-🧠 Avantages des méthodes
-BoW/TF-IDF : Simples, rapides, mais sensibles au vocabulaire.
-
-SBERT : Capture la sémantique, plus robuste au sens du message.
-
-Super Learner : Combine les forces des modèles pour une performance optimale.
-
-🐍 Dépendances
-bash
-Copy
-Edit
+```bash
 pip install pandas scikit-learn matplotlib sentence-transformers numpy
-📂 Fichiers livrés
-tp_classification_sms.py : Code principal avec les trois parties.
 
-spam.csv : Dataset à télécharger séparément.
-
-rapport.pdf ou .ipynb (à joindre selon les consignes).
 
 
 
